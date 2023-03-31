@@ -1,3 +1,3 @@
-# EngineBay.ModuleTemplate
+# EngineBay.DatabaseManagement
 
-ModuleTemplate module for EngineBay published to [EngineBay.ModuleTemplate](https://www.nuget.org/packages/EngineBay.ModuleTemplate/) on NuGet.
+DatabaseManagement module for EngineBay published to [EngineBay.DatabaseManagement](https://www.nuget.org/packages/EngineBay.DatabaseManagement/) on NuGet.
