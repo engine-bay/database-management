@@ -30,8 +30,9 @@ jobs:
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 7.0.x
+    - run: dotnet restore    
     - run: dotnet tool restore
-    - run: dotnet coverage collect dotnet test --output ./output --output-format cobertura
+    - run: dotnet coverage collect dotnet test --no-restore --output ./output --output-format cobertura
     - run: dotnet reportgenerator -reports:./output.cobertura.xml -targetdir:"." -reporttypes:Clover -assemblyfilters:"-FluentValidation;-Humanizer;-OidcClient"
     - uses: paambaati/codeclimate-action@v3.2.0
       env:
