@@ -72,10 +72,10 @@ namespace EngineBay.DatabaseManagement
                     {
                         this.masterDb.AddRange(workbooks);
                         this.logger.SeedingWorkbook(workbookFilePath);
+
+                        this.masterDb.SaveChanges(systemUser);
                     }
                 }
-
-                this.masterDb.SaveChanges(systemUser);
             }
         }
 
