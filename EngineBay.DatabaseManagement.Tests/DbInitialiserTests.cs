@@ -58,6 +58,9 @@ namespace EngineBay.DatabaseManagement.Tests
 
             initialiser.Run();
 
+            Environment.SetEnvironmentVariable(EngineBay.Persistence.EnvironmentVariableConstants.DATABASEPROVIDER, DatabaseProviderTypes.SQLite.ToString());
+            Environment.SetEnvironmentVariable(EngineBay.DatabaseManagement.EnvironmentVariableConstants.DATABASESEEDDATAPATH, DefaultSeedingConstants.DefaultSeedDataPath);
+
             // Assert.Equal(DefaultSeedingConstants.DefaultSeedDataPath, path);
             await masterDb.DisposeAsync().ConfigureAwait(false);
             await masterSqliteDb.DisposeAsync().ConfigureAwait(false);
