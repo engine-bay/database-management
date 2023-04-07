@@ -30,7 +30,7 @@ namespace EngineBay.DatabaseManagement
             this.masterPostgresDb = masterPostgresDb;
         }
 
-        public void Run(ICollection<string>? seedFilePaths)
+        public void Run()
         {
             this.logger.InitializingDatabase();
 
@@ -58,25 +58,24 @@ namespace EngineBay.DatabaseManagement
 
                 this.logger.SeedingDatabase();
 
-                // Seed initial data from JSON files
                 var settings = new JsonSerializerSettings
                 {
                     ContractResolver = new PrivateSetterContractResolver(),
                 };
 
-                if (seedFilePaths is not null)
-                {
-                    foreach (var filePath in seedFilePaths)
-                    {
-                        List<Workbook>? workbooks = JsonConvert.DeserializeObject<List<Workbook>>(File.ReadAllText(filePath));
-                        if (workbooks is not null)
-                        {
-                            this.masterDb.AddRange(workbooks);
-                        }
-                    }
+                var seedDataPath = SeedingConfiguration.GetSeedDataPath();
 
-                    this.masterDb.SaveChanges(systemUser);
+                foreach (string workbookFilePath in Directory.EnumerateFiles(seedDataPath, "*.workbook.json", SearchOption.AllDirectories))
+                {
+                    List<Workbook>? workbooks = JsonConvert.DeserializeObject<List<Workbook>>(File.ReadAllText(workbookFilePath));
+                    if (workbooks is not null)
+                    {
+                        this.masterDb.AddRange(workbooks);
+                        this.logger.SeedingWorkbook(workbookFilePath);
+                    }
                 }
+
+                this.masterDb.SaveChanges(systemUser);
             }
         }
 
@@ -88,13 +87,25 @@ namespace EngineBay.DatabaseManagement
             {
                 case DatabaseProviderTypes.InMemory:
                 case DatabaseProviderTypes.SQLite:
-                    this.masterSqliteDb.Database.Migrate();
+                    if (this.masterSqliteDb.Database.IsRelational())
+                    {
+                        this.masterSqliteDb.Database.Migrate();
+                    }
+
                     break;
                 case DatabaseProviderTypes.SqlServer:
-                    this.masterSqlServerDb.Database.Migrate();
+                    if (this.masterSqlServerDb.Database.IsRelational())
+                    {
+                        this.masterSqlServerDb.Database.Migrate();
+                    }
+
                     break;
                 case DatabaseProviderTypes.Postgres:
-                    this.masterPostgresDb.Database.Migrate();
+                    if (this.masterPostgresDb.Database.IsRelational())
+                    {
+                        this.masterPostgresDb.Database.Migrate();
+                    }
+
                     break;
                 default:
                     throw new ArgumentException($"Unhandled {EngineBay.Persistence.EnvironmentVariableConstants.DATABASEPROVIDER} configuration of '{databaseProvider}'.");

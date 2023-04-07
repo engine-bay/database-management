@@ -34,6 +34,11 @@ namespace EngineBay.DatabaseManagement
             eventId: 6,
             formatString: "Creating root system user.");
 
+        private static readonly Action<ILogger, string, Exception?> SeedingWorkbookValue = LoggerMessage.Define<string>(
+            logLevel: LogLevel.Information,
+            eventId: 4,
+            formatString: "Seeding workbook data: {FilePath}");
+
         public static void InitializingDatabase(this ILogger logger)
         {
             InitializingDatabaseValue(logger, null);
@@ -62,6 +67,11 @@ namespace EngineBay.DatabaseManagement
         public static void CreatingRootSystemUser(this ILogger logger)
         {
             CreatingRootSystemUserValue(logger, null);
+        }
+
+        public static void SeedingWorkbook(this ILogger logger, string filePath)
+        {
+            SeedingWorkbookValue(logger, filePath, null);
         }
     }
 }
