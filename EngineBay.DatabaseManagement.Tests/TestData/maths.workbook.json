@@ -1,0 +1,303 @@
+[
+    {
+        "Id": "8caf34ed-b7fa-4054-b366-3a3e25e96991",
+        "Name": "Hello Maths World",
+        "Description": "A basic maths demonstration workbook",
+        "Blueprints": [
+            {
+                "Name": "Multiplication",
+                "Description": "Multiplication demonstration",
+                "ExpressionBlueprints": [
+                    {
+                        "Expression": "A * B",
+                        "Objective": "Multiply two numbers together",
+                        "InputDataTableBlueprints": [],
+                        "InputDataVariableBlueprints": [
+                            {
+                                "Name": "A",
+                                "Namespace": "Global",
+                                "Type": "float"
+                            },
+                            {
+                                "Name": "B",
+                                "Namespace": "Global",
+                                "Type": "float"
+                            }
+                        ],
+                        "OutputDataVariableBlueprint": {
+                            "Name": "C",
+                            "Namespace": "Global",
+                            "Type": "float"
+                        }
+                    }
+                ],
+                "DataVariableBlueprints": [
+                    {
+                        "Name": "A",
+                        "Namespace": "Global",
+                        "Description": "A numeric input",
+                        "Type": "float"
+                    },
+                    {
+                        "Name": "B",
+                        "Namespace": "Global",
+                        "Description": "Another numeric input",
+                        "Type": "float"
+                    },
+                    {
+                        "Name": "C",
+                        "Namespace": "Global",
+                        "Description": "A numeric multiplication result",
+                        "Type": "float"
+                    }
+                ],
+                "DataTableBlueprints": [],
+                "TriggerBlueprints": []
+            },
+            {
+                "Name": "Division",
+                "Description": "Division demonstration",
+                "ExpressionBlueprints": [
+                    {
+                        "Expression": "A / B",
+                        "Objective": "Divide one number by another",
+                        "InputDataTableBlueprints": [],
+                        "InputDataVariableBlueprints": [
+                            {
+                                "Name": "A",
+                                "Namespace": "Global",
+                                "Type": "float"
+                            },
+                            {
+                                "Name": "B",
+                                "Namespace": "Global",
+                                "Type": "float"
+                            }
+                        ],
+                        "OutputDataVariableBlueprint": {
+                            "Name": "D",
+                            "Namespace": "Global",
+                            "Type": "float"
+                        }
+                    }
+                ],
+                "DataVariableBlueprints": [
+                    {
+                        "Name": "A",
+                        "Namespace": "Global",
+                        "Description": "A numeric input",
+                        "Type": "float"
+                    },
+                    {
+                        "Name": "B",
+                        "Namespace": "Global",
+                        "Description": "Another numeric input",
+                        "Type": "float"
+                    },
+                    {
+                        "Name": "D",
+                        "Namespace": "Global",
+                        "Description": "A numeric division result",
+                        "Type": "float"
+                    }
+                ],
+                "DataTableBlueprints": [],
+                "TriggerBlueprints": []
+            },
+            {
+                "Name": "Addition",
+                "Description": "Addition demonstration",
+                "ExpressionBlueprints": [
+                    {
+                        "Expression": "A + B",
+                        "Objective": "Add two numbers together",
+                        "InputDataTableBlueprints": [],
+                        "InputDataVariableBlueprints": [
+                            {
+                                "Name": "A",
+                                "Namespace": "Global",
+                                "Type": "float"
+                            },
+                            {
+                                "Name": "B",
+                                "Namespace": "Global",
+                                "Type": "float"
+                            }
+                        ],
+                        "OutputDataVariableBlueprint": {
+                            "Name": "E",
+                            "Namespace": "Global",
+                            "Type": "float"
+                        }
+                    }
+                ],
+                "DataVariableBlueprints": [
+                    {
+                        "Name": "A",
+                        "Namespace": "Global",
+                        "Description": "A numeric input",
+                        "Type": "float"
+                    },
+                    {
+                        "Name": "B",
+                        "Namespace": "Global",
+                        "Description": "Another numeric input",
+                        "Type": "float"
+                    },
+                    {
+                        "Name": "E",
+                        "Namespace": "Global",
+                        "Description": "A numeric addition result",
+                        "Type": "float"
+                    }
+                ],
+                "DataTableBlueprints": [],
+                "TriggerBlueprints": []
+            },
+            {
+                "Name": "Subtraction",
+                "Description": "Subtraction demonstration",
+                "ExpressionBlueprints": [
+                    {
+                        "Expression": "A - B",
+                        "Objective": "Subtract one number from another",
+                        "InputDataTableBlueprints": [],
+                        "InputDataVariableBlueprints": [
+                            {
+                                "Name": "A",
+                                "Namespace": "Global",
+                                "Type": "float"
+                            },
+                            {
+                                "Name": "B",
+                                "Namespace": "Global",
+                                "Type": "float"
+                            }
+                        ],
+                        "OutputDataVariableBlueprint": {
+                            "Name": "F",
+                            "Namespace": "Global",
+                            "Type": "float"
+                        }
+                    }
+                ],
+                "DataVariableBlueprints": [
+                    {
+                        "Name": "A",
+                        "Namespace": "Global",
+                        "Description": "A numeric input",
+                        "Type": "float"
+                    },
+                    {
+                        "Name": "B",
+                        "Namespace": "Global",
+                        "Description": "Another numeric input",
+                        "Type": "float"
+                    },
+                    {
+                        "Name": "F",
+                        "Namespace": "Global",
+                        "Description": "A numeric subratcion result",
+                        "Type": "float"
+                    }
+                ],
+                "DataTableBlueprints": [],
+                "TriggerBlueprints": []
+            },
+            {
+                "Name": "BODMAS",
+                "Description": "BODMAS demonstration - the correct order in which to solve maths problems. Bodmas stands for B-Brackets, O-Orders (powers/indices or roots), D-Division, M-Multiplication, A-Addition, S-Subtraction.",
+                "ExpressionBlueprints": [
+                    {
+                        "Expression": "((A - B + C / D)*E)/F",
+                        "Objective": "Apply some BODMAS",
+                        "InputDataTableBlueprints": [],
+                        "InputDataVariableBlueprints": [
+                            {
+                                "Name": "A",
+                                "Namespace": "Global",
+                                "Type": "float"
+                            },
+                            {
+                                "Name": "B",
+                                "Namespace": "Global",
+                                "Type": "float"
+                            },
+                            {
+                                "Name": "C",
+                                "Namespace": "Global",
+                                "Type": "float"
+                            },
+                            {
+                                "Name": "D",
+                                "Namespace": "Global",
+                                "Type": "float"
+                            },
+                            {
+                                "Name": "E",
+                                "Namespace": "Global",
+                                "Type": "float"
+                            },
+                            {
+                                "Name": "F",
+                                "Namespace": "Global",
+                                "Type": "float"
+                            }
+                        ],
+                        "OutputDataVariableBlueprint": {
+                            "Name": "G",
+                            "Namespace": "Global",
+                            "Type": "float"
+                        }
+                    }
+                ],
+                "DataVariableBlueprints": [
+                    {
+                        "Name": "A",
+                        "Namespace": "Global",
+                        "Description": "A numeric input",
+                        "Type": "float"
+                    },
+                    {
+                        "Name": "B",
+                        "Namespace": "Global",
+                        "Description": "A numeric input",
+                        "Type": "float"
+                    },
+                    {
+                        "Name": "C",
+                        "Namespace": "Global",
+                        "Description": "A numeric input",
+                        "Type": "float"
+                    },
+                    {
+                        "Name": "D",
+                        "Namespace": "Global",
+                        "Description": "A numeric input",
+                        "Type": "float"
+                    },
+                    {
+                        "Name": "E",
+                        "Namespace": "Global",
+                        "Description": "A numeric input",
+                        "Type": "float"
+                    },
+                    {
+                        "Name": "F",
+                        "Namespace": "Global",
+                        "Description": "A numeric input",
+                        "Type": "float"
+                    },
+                    {
+                        "Name": "G",
+                        "Namespace": "Global",
+                        "Description": "A numeric subratcion result",
+                        "Type": "float"
+                    }
+                ],
+                "DataTableBlueprints": [],
+                "TriggerBlueprints": []
+            }
+        ]
+    }
+]
