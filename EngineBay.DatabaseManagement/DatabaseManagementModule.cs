@@ -1,5 +1,6 @@
 namespace EngineBay.DatabaseManagement
 {
+    using System;
     using EngineBay.Core;
     using EngineBay.Persistence;
 
@@ -42,6 +43,20 @@ namespace EngineBay.DatabaseManagement
 
         public WebApplication AddMiddleware(WebApplication app)
         {
+            if (app is null)
+            {
+                throw new ArgumentNullException(nameof(app));
+            }
+
+            // Seed the database
+            using var scope = app.Services.CreateScope();
+            var serviceProvider = scope.ServiceProvider;
+            var dbInitialiser = serviceProvider.GetRequiredService<DbInitialiser>();
+
+            dbInitialiser.Run();
+
+            scope.Dispose();
+
             return app;
         }
     }
