@@ -3,6 +3,7 @@ namespace EngineBay.DatabaseManagement
     using EngineBay.Authentication;
     using EngineBay.Blueprints;
     using EngineBay.Persistence;
+    using FluentValidation;
     using Microsoft.EntityFrameworkCore;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Serialization;
@@ -68,8 +69,15 @@ namespace EngineBay.DatabaseManagement
                 foreach (string workbookFilePath in Directory.EnumerateFiles(seedDataPath, "*.workbook.json", SearchOption.AllDirectories))
                 {
                     List<Workbook>? workbooks = JsonConvert.DeserializeObject<List<Workbook>>(File.ReadAllText(workbookFilePath));
+
                     if (workbooks is not null)
                     {
+                        var workbookValidator = new WorkbookValidator();
+                        foreach (var workbook in workbooks)
+                        {
+                            workbookValidator.ValidateAndThrow(workbook);
+                        }
+
                         this.masterDb.AddRange(workbooks);
                         this.logger.SeedingWorkbook(workbookFilePath);
 
