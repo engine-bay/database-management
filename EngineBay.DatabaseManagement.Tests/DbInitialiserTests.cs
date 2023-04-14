@@ -57,12 +57,13 @@ namespace EngineBay.DatabaseManagement.Tests
                 masterSqlServerDb,
                 masterPostgresDb);
 
-            initialiser.Run();
+            var exception = Record.Exception(() => initialiser.Run());
+
+            Assert.Null(exception);
 
             Environment.SetEnvironmentVariable(EngineBay.Persistence.EnvironmentVariableConstants.DATABASEPROVIDER, DatabaseProviderTypes.SQLite.ToString());
             Environment.SetEnvironmentVariable(EngineBay.DatabaseManagement.EnvironmentVariableConstants.DATABASESEEDDATAPATH, DefaultSeedingConstants.DefaultSeedDataPath);
 
-            // Assert.Equal(DefaultSeedingConstants.DefaultSeedDataPath, path);
             await masterDb.DisposeAsync().ConfigureAwait(false);
             await masterSqliteDb.DisposeAsync().ConfigureAwait(false);
             await masterSqlServerDb.DisposeAsync().ConfigureAwait(false);
