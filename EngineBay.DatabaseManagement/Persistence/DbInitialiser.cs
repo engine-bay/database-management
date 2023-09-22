@@ -41,7 +41,7 @@ namespace EngineBay.DatabaseManagement
 
             if (shouldResetDatabase)
             {
-                // For development and testing we want to be able to delete and recreate each time on startup for a deterministc state.
+                // For development and testing we want to be able to delete and recreate each time on startup for a deterministic state.
                 this.logger.DeletingDatabase();
 
                 this.masterDb.Database.EnsureDeleted();
@@ -65,23 +65,25 @@ namespace EngineBay.DatabaseManagement
                 };
 
                 var seedDataPath = SeedingConfiguration.GetSeedDataPath();
-
-                foreach (string workbookFilePath in Directory.EnumerateFiles(seedDataPath, "*.workbook.json", SearchOption.AllDirectories))
+                if (Directory.Exists(seedDataPath))
                 {
-                    List<Workbook>? workbooks = JsonConvert.DeserializeObject<List<Workbook>>(File.ReadAllText(workbookFilePath));
-
-                    if (workbooks is not null)
+                    foreach (string workbookFilePath in Directory.EnumerateFiles(seedDataPath, "*.workbook.json", SearchOption.AllDirectories))
                     {
-                        var workbookValidator = new WorkbookValidator();
-                        foreach (var workbook in workbooks)
+                        List<Workbook>? workbooks = JsonConvert.DeserializeObject<List<Workbook>>(File.ReadAllText(workbookFilePath));
+
+                        if (workbooks is not null)
                         {
-                            workbookValidator.ValidateAndThrow(workbook);
+                            var workbookValidator = new WorkbookValidator();
+                            foreach (var workbook in workbooks)
+                            {
+                                workbookValidator.ValidateAndThrow(workbook);
+                            }
+
+                            this.masterDb.AddRange(workbooks);
+                            this.logger.SeedingWorkbook(workbookFilePath);
+
+                            this.masterDb.SaveChanges(systemUser);
                         }
-
-                        this.masterDb.AddRange(workbooks);
-                        this.logger.SeedingWorkbook(workbookFilePath);
-
-                        this.masterDb.SaveChanges(systemUser);
                     }
                 }
             }
