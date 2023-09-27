@@ -15,7 +15,7 @@ namespace EngineBay.DatabaseManagement.Migrations.MasterDb.SqliteMigrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "7.0.4");
+            modelBuilder.HasAnnotation("ProductVersion", "7.0.11");
 
             modelBuilder.Entity("EngineBay.ActorEngine.DataVariableState", b =>
                 {
@@ -24,6 +24,9 @@ namespace EngineBay.DatabaseManagement.Migrations.MasterDb.SqliteMigrations
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("EncryptedValue")
                         .HasColumnType("TEXT");
 
                     b.Property<Guid>("Identity")
@@ -42,9 +45,6 @@ namespace EngineBay.DatabaseManagement.Migrations.MasterDb.SqliteMigrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Type")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Value")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -70,15 +70,15 @@ namespace EngineBay.DatabaseManagement.Migrations.MasterDb.SqliteMigrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("EncryptedMessage")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<DateTime>("LastUpdatedAt")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("LogLevel")
                         .HasColumnType("INTEGER");
-
-                    b.Property<string>("Message")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
 
                     b.Property<Guid>("SessionId")
                         .HasColumnType("TEXT");

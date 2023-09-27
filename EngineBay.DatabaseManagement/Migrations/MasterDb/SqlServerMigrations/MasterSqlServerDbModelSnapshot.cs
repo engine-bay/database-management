@@ -17,7 +17,7 @@ namespace EngineBay.DatabaseManagement.Migrations.MasterDb.SqlServerMigrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.4")
+                .HasAnnotation("ProductVersion", "7.0.11")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -30,6 +30,9 @@ namespace EngineBay.DatabaseManagement.Migrations.MasterDb.SqlServerMigrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("EncryptedValue")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("Identity")
                         .HasColumnType("uniqueidentifier");
@@ -48,9 +51,6 @@ namespace EngineBay.DatabaseManagement.Migrations.MasterDb.SqlServerMigrations
 
                     b.Property<string>("Type")
                         .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Value")
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -76,15 +76,15 @@ namespace EngineBay.DatabaseManagement.Migrations.MasterDb.SqlServerMigrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("EncryptedMessage")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("LastUpdatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("LogLevel")
                         .HasColumnType("int");
-
-                    b.Property<string>("Message")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("SessionId")
                         .HasColumnType("uniqueidentifier");
