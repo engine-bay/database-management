@@ -4,12 +4,11 @@ namespace EngineBay.DatabaseManagement
     using EngineBay.Core;
     using EngineBay.Persistence;
 
-    public class DatabaseManagementModule : IModule
+    public class DatabaseManagementModule : BaseModule
     {
-        /// <inheritdoc/>
-        public IServiceCollection RegisterModule(IServiceCollection services, IConfiguration configuration)
+        public override IServiceCollection RegisterModule(IServiceCollection services, IConfiguration configuration)
         {
-            // Register database schema management and initialisation
+            // Register database schema management and initialization
             services.AddTransient<DbInitialiser>();
 
             // register persistence services
@@ -35,13 +34,7 @@ namespace EngineBay.DatabaseManagement
             return services;
         }
 
-        /// <inheritdoc/>
-        public IEndpointRouteBuilder MapEndpoints(IEndpointRouteBuilder endpoints)
-        {
-            return endpoints;
-        }
-
-        public WebApplication AddMiddleware(WebApplication app)
+        public override WebApplication AddMiddleware(WebApplication app)
         {
             if (app is null)
             {
