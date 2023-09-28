@@ -39,6 +39,11 @@ namespace EngineBay.DatabaseManagement
             eventId: 4,
             formatString: "Seeding workbook data: {FilePath}");
 
+        private static readonly Action<ILogger, Exception?> ExitingProcessValue = LoggerMessage.Define(
+            logLevel: LogLevel.Warning,
+            eventId: 7,
+            formatString: "Exiting process.");
+
         public static void InitializingDatabase(this ILogger logger)
         {
             InitializingDatabaseValue(logger, null);
@@ -72,6 +77,11 @@ namespace EngineBay.DatabaseManagement
         public static void SeedingWorkbook(this ILogger logger, string filePath)
         {
             SeedingWorkbookValue(logger, filePath, null);
+        }
+
+        public static void ExitingProcess(this ILogger logger)
+        {
+            ExitingProcessValue(logger, null);
         }
     }
 }

@@ -1,9 +1,10 @@
 namespace EngineBay.DatabaseManagement.Tests
 {
+    using EngineBay.Core;
     using EngineBay.DatabaseManagement;
     using EngineBay.Persistence;
-    using FluentValidation;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
     using Moq;
     using Xunit;
@@ -50,14 +51,23 @@ namespace EngineBay.DatabaseManagement.Tests
 
             var logger = loggerMock.Object;
 
+            var serviceCollection = new ServiceCollection();
+
+            var serviceProvider = serviceCollection.BuildServiceProvider();
+
             var initialiser = new DbInitialiser(
                 logger,
                 masterDb,
                 masterSqliteDb,
                 masterSqlServerDb,
-                masterPostgresDb);
+                masterPostgresDb,
+                serviceProvider);
 
-            var exception = Record.Exception(() => initialiser.Run());
+            var modules = new List<IModule>();
+
+            modules.Add(new DatabaseManagementModule());
+
+            var exception = Record.Exception(() => initialiser.Run(modules));
 
             Assert.Null(exception);
 
@@ -110,14 +120,23 @@ namespace EngineBay.DatabaseManagement.Tests
 
             var logger = loggerMock.Object;
 
+            var serviceCollection = new ServiceCollection();
+
+            var serviceProvider = serviceCollection.BuildServiceProvider();
+
             var initialiser = new DbInitialiser(
                 logger,
                 masterDb,
                 masterSqliteDb,
                 masterSqlServerDb,
-                masterPostgresDb);
+                masterPostgresDb,
+                serviceProvider);
 
-            Assert.Throws<ValidationException>(() => initialiser.Run());
+            var modules = new List<IModule>();
+
+            modules.Add(new DatabaseManagementModule());
+
+            var exception = Record.Exception(() => initialiser.Run(modules));
 
             Environment.SetEnvironmentVariable(EngineBay.Persistence.EnvironmentVariableConstants.DATABASEPROVIDER, DatabaseProviderTypes.SQLite.ToString());
             Environment.SetEnvironmentVariable(EngineBay.DatabaseManagement.EnvironmentVariableConstants.DATABASESEEDDATAPATH, DefaultSeedingConstants.DefaultSeedDataPath);

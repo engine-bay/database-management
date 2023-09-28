@@ -1,12 +1,9 @@
 namespace EngineBay.DatabaseManagement
 {
     using EngineBay.Authentication;
-    using EngineBay.Blueprints;
+    using EngineBay.Core;
     using EngineBay.Persistence;
-    using FluentValidation;
     using Microsoft.EntityFrameworkCore;
-    using Newtonsoft.Json;
-    using Newtonsoft.Json.Serialization;
 
     public class DbInitialiser
     {
@@ -17,27 +14,38 @@ namespace EngineBay.DatabaseManagement
 
         private readonly MasterPostgresDb masterPostgresDb;
 
+        private readonly IServiceProvider serviceProvider;
+
         public DbInitialiser(
             ILogger<DbInitialiser> logger,
             MasterDb masterDb,
             MasterSqliteDb masterSqliteDb,
             MasterSqlServerDb masterSqlServerDb,
-            MasterPostgresDb masterPostgresDb)
+            MasterPostgresDb masterPostgresDb,
+            IServiceProvider serviceProvider)
         {
             this.logger = logger;
             this.masterDb = masterDb;
             this.masterSqliteDb = masterSqliteDb;
             this.masterSqlServerDb = masterSqlServerDb;
             this.masterPostgresDb = masterPostgresDb;
+            this.serviceProvider = serviceProvider;
         }
 
-        public void Run()
+        public void Run(IEnumerable<IModule> modules)
         {
+            if (modules is null)
+            {
+                throw new ArgumentNullException(nameof(modules));
+            }
+
             this.logger.InitializingDatabase();
 
             var databaseProvider = BaseDatabaseConfiguration.GetDatabaseProvider();
             var shouldResetDatabase = BaseDatabaseConfiguration.IsDatabaseReset();
             var shouldReseedDatabase = BaseDatabaseConfiguration.IsDatabaseReseeded();
+            var shouldExitAfterMigrations = BaseDatabaseConfiguration.ShouldExitAfterMigrations();
+            var shouldExitAfterSeeding = BaseDatabaseConfiguration.ShouldExitAfterSeeding();
 
             if (shouldResetDatabase)
             {
@@ -49,42 +57,37 @@ namespace EngineBay.DatabaseManagement
 
             this.ApplyMigrations(databaseProvider);
 
+            if (shouldExitAfterMigrations)
+            {
+                this.logger.ExitingProcess();
+
+                Environment.Exit(0);
+            }
+
             if (shouldResetDatabase || shouldReseedDatabase)
             {
                 this.logger.CreatingRootSystemUser();
 
                 var systemUser = new SystemUser();
-                this.masterDb.ApplicationUsers.Add(systemUser);
+                this.masterDb.Add(systemUser as ApplicationUser);
                 this.masterDb.SaveChanges(systemUser);
 
                 this.logger.SeedingDatabase();
 
-                var settings = new JsonSerializerSettings
-                {
-                    ContractResolver = new PrivateSetterContractResolver(),
-                };
-
                 var seedDataPath = SeedingConfiguration.GetSeedDataPath();
-                if (Directory.Exists(seedDataPath))
+
+                var enumerable = modules as IModule[] ?? modules.ToArray();
+
+                foreach (var module in enumerable)
                 {
-                    foreach (string workbookFilePath in Directory.EnumerateFiles(seedDataPath, "*.workbook.json", SearchOption.AllDirectories))
-                    {
-                        List<Workbook>? workbooks = JsonConvert.DeserializeObject<List<Workbook>>(File.ReadAllText(workbookFilePath));
+                    module.SeedDatabase(seedDataPath, this.serviceProvider);
+                }
 
-                        if (workbooks is not null)
-                        {
-                            var workbookValidator = new WorkbookValidator();
-                            foreach (var workbook in workbooks)
-                            {
-                                workbookValidator.ValidateAndThrow(workbook);
-                            }
+                if (shouldExitAfterSeeding)
+                {
+                    this.logger.ExitingProcess();
 
-                            this.masterDb.AddRange(workbooks);
-                            this.logger.SeedingWorkbook(workbookFilePath);
-
-                            this.masterDb.SaveChanges(systemUser);
-                        }
-                    }
+                    Environment.Exit(0);
                 }
             }
         }
