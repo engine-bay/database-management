@@ -27,8 +27,14 @@
     <IsTrimmable>true</IsTrimmable>
   </PropertyGroup>
 
-  <ItemGroup>
+  <ItemGroup Condition="$(Configuration)=='Debug'">
+    <ProjectReference Include="../../actor-engine/EngineBay.ActorEngine/EngineBay.ActorEngine.csproj" />
+  </ItemGroup>
+  <ItemGroup Condition="$(Configuration)!='Debug'">
     <PackageReference Include="EngineBay.ActorEngine" Version="2.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.4">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
