@@ -27,10 +27,10 @@
     <IsTrimmable>true</IsTrimmable>
   </PropertyGroup>
 
-  <ItemGroup Condition="$(Configuration)=='Debug'">
+  <ItemGroup Condition="$(Configuration)=='Dev'">
     <ProjectReference Include="../../actor-engine/EngineBay.ActorEngine/EngineBay.ActorEngine.csproj" />
   </ItemGroup>
-  <ItemGroup Condition="$(Configuration)!='Debug'">
+  <ItemGroup Condition="$(Configuration)!='Dev'">
     <PackageReference Include="EngineBay.ActorEngine" Version="2.0.1" />
   </ItemGroup>
 
