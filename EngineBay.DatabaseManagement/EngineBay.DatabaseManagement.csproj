@@ -31,7 +31,7 @@
         <When Condition="'$(ASPNETCORE_ENVIRONMENT)' == 'Development'">
             <ItemGroup>
                 <ProjectReference
-                    Include="../../actor-engine/EngineBay.ActorEngien/EngineBay.ActorEngien.csproj" />
+                    Include="../../actor-engine/EngineBay.ActorEngine/EngineBay.ActorEngine.csproj" />
             </ItemGroup>
         </When>
         <Otherwise>
