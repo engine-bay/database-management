@@ -31,15 +31,12 @@
         <When Condition="'$(ASPNETCORE_ENVIRONMENT)' == 'Development'">
             <ItemGroup>
                 <ProjectReference
-                    Include="../../persistence/EngineBay.Persistence/EngineBay.Persistence.csproj" />
-                <ProjectReference
-                    Include="../../authentication/EngineBay.Authentication/EngineBay.Authentication.csproj" />
+                    Include="../../actor-engine/EngineBay.ActorEngien/EngineBay.ActorEngien.csproj" />
             </ItemGroup>
         </When>
         <Otherwise>
             <ItemGroup>
-                <PackageReference Include="EngineBay.Persistence" Version="4.0.0" />
-                <PackageReference Include="EngineBay.Authentication" Version="0.11.7" />
+                <PackageReference Include="EngineBay.ActorEngine" Version="2.0.1" />
             </ItemGroup>
         </Otherwise>
     </Choose>
