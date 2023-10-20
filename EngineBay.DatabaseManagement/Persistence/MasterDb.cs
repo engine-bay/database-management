@@ -13,6 +13,11 @@ namespace EngineBay.DatabaseManagement
         {
         }
 
+        protected virtual IReadOnlyCollection<IModuleDbContext> GetRegisteredDbContexts(DbContextOptions<ModuleWriteDbContext> dbOptions)
+        {
+            return new List<IModuleDbContext>();
+        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             var dbOptionsBuilder = new DbContextOptionsBuilder<ModuleWriteDbContext>();
@@ -36,11 +41,8 @@ namespace EngineBay.DatabaseManagement
             }
 
             var dbOptions = dbOptionsBuilder.Options;
-            var dbContexts = new List<IModuleDbContext>();
 
-            dbContexts.Add(new ActorEngineDbContext(dbOptions));
-            dbContexts.Add(new BlueprintsDbContext(dbOptions));
-            dbContexts.Add(new AuthenticationDbContext(dbOptions));
+            var dbContexts = this.GetRegisteredDbContexts(dbOptions);
 
             foreach (var dbContext in dbContexts)
             {
