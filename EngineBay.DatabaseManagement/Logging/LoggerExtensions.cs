@@ -2,7 +2,7 @@ namespace EngineBay.DatabaseManagement
 {
     using EngineBay.Persistence;
 
-    internal static class LoggerExtensions
+    public static class LoggerExtensions
     {
         private static readonly Action<ILogger, Exception?> InitializingDatabaseValue = LoggerMessage.Define(
             logLevel: LogLevel.Information,
