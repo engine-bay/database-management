@@ -30,12 +30,15 @@
     <Choose>
         <When Condition="'$(ASPNETCORE_ENVIRONMENT)' == 'Development'">
             <ItemGroup>
-                <ProjectReference Include="../../actor-engine/EngineBay.ActorEngine/EngineBay.ActorEngine.csproj" />
+                <ProjectReference Include="../../core/EngineBay.Core/EngineBay.Core.csproj" />
+                <ProjectReference
+                    Include="../../persistence/EngineBay.Persistence/EngineBay.Persistence.csproj" />
             </ItemGroup>
         </When>
         <Otherwise>
             <ItemGroup>
-                <PackageReference Include="EngineBay.ActorEngine" Version="2.0.3" />
+                <PackageReference Include="EngineBay.Core" Version="7.0.0" />
+                <PackageReference Include="EngineBay.Persistence" Version="5.0.1" />
             </ItemGroup>
         </Otherwise>
     </Choose>
@@ -45,7 +48,9 @@
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
             <PrivateAssets>all</PrivateAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="7.0.4" />
+        <PackageReference
+            Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore"
+            Version="7.0.4" />
         <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
             <PrivateAssets>all</PrivateAssets>
