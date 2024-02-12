@@ -10,36 +10,15 @@ namespace EngineBay.DatabaseManagement
         {
         }
 
-        protected virtual IReadOnlyCollection<IModuleDbContext> GetRegisteredDbContexts(DbContextOptions<ModuleWriteDbContext> dbOptions)
+        protected virtual IReadOnlyCollection<IModuleDbContext> GetRegisteredDbContexts(IDbContextOptionsFactory dbContextOptionsFactory)
         {
             return new List<IModuleDbContext>();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            var dbOptionsBuilder = new DbContextOptionsBuilder<ModuleWriteDbContext>();
-
-            var databaseProvider = BaseDatabaseConfiguration.GetDatabaseProvider();
-
-            switch (databaseProvider)
-            {
-                case DatabaseProviderTypes.InMemory:
-                case DatabaseProviderTypes.SQLite:
-                    dbOptionsBuilder.UseSqlite();
-                    break;
-                case DatabaseProviderTypes.SqlServer:
-                    dbOptionsBuilder.UseSqlServer();
-                    break;
-                case DatabaseProviderTypes.Postgres:
-                    dbOptionsBuilder.UseNpgsql();
-                    break;
-                default:
-                    throw new ArgumentException($"Unhandled {EngineBay.Persistence.EnvironmentVariableConstants.DATABASEPROVIDER} configuration of '{databaseProvider}'.");
-            }
-
-            var dbOptions = dbOptionsBuilder.Options;
-
-            var dbContexts = this.GetRegisteredDbContexts(dbOptions);
+            var dbContextOptionsFactory = new DbContextOptionsFactory();
+            var dbContexts = this.GetRegisteredDbContexts(dbContextOptionsFactory);
 
             foreach (var dbContext in dbContexts)
             {
